@@ -60,9 +60,20 @@ class DoublyLinkedList:
             self.head.prev = new_node
             new_node.next = self.head
             self.head = new_node
+        self.length += 1
 
     def remove_from_head(self):
-        pass
+        if self.length == 0:
+            return None
+        old_head = self.head
+        if self.length == 1:
+            self.head = None
+            self.tail = None
+        self.head = old_head.next
+        self.head.prev = None
+        old_head.next = None
+        self.length -= 1
+        return old_head
 
     def add_to_tail(self, value):
         new_node = ListNode(value)
@@ -76,16 +87,56 @@ class DoublyLinkedList:
         self.length += 1
 
     def remove_from_tail(self):
-        pass
+        if self.length == 0:
+            return None
+        old_tail = self.tail
+        if self.length == 1:
+            self.head = None
+            self.tail = None
+        self.tail = old_tail.prev
+        self.tail.next = None
+        self.length -= 1
+        return old_tail
 
     def move_to_front(self, node):
-        pass
+
+        if node is self.head:
+            return
+
+        self.delete(node)
+        self.add_to_head(node.value)
 
     def move_to_end(self, node):
-        pass
+
+        if node is self.tail:
+            return
+
+        self.delete(node)
+        self.add_to_tail(node.value)
 
     def delete(self, node):
-        pass
+        if not self.head and not self.tail:
+            return None
+        elif self.head == self.tail:
+            self.head = None
+            self.tail = None
+        elif node == self.head:
+            self.head = self.head.next
+            node.delete()
+        else:
+            node.delete()
+
+        self.length -= 1
 
     def get_max(self):
-        pass
+
+        if not self.head:
+            return None
+
+        max_value = self.head.value
+        current = self.head
+        while current:
+            if current.value > max_value:
+                max_value = current.value
+            current = current.next
+        return max_value
