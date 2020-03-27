@@ -70,6 +70,8 @@ class LRUCache:
             # move to the tail, that was used
             self.dll.move_to_end(node)
 
+            return
+
         # size at limit
 
         if len(self.dll) == self.limit:
